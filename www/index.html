@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="cordova.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/factory/lugaresFactory.js"></script>
+    <script src="js/controller/lugaresController.js"></script>
+  </head>
+  <body ng-app="starter">
+    <ion-pane ng-controller="lugaresController">
+      <div class="bar bar-header bar-dark">
+        <button class="button button-icon icon ion-android-plane" ng-hide="inserindo"></button>
+        <button class="button button-icon icon-left ion-arrow-left-c" ng-click="cancel()" ng-show="inserindo"></button>
+        <h1 class="title">Lugares para conhecer</h1>
+        <button class="button button-icon icon ion-plus" ng-click="insert()" ng-hide="inserindo"></button>
+      </div>
+      <ion-content class="has-header">
+        <div ng-show="inserindo">
+          <div class="item item-input">
+            <textarea ng-model="novoLugar.name" placeholder="Digite o nome do lugar"></textarea>
+          </div>
+          <div class="item item-input">
+            <textarea ng-model="novoLugar.subtitle" placeholder="Digite o subtítulo do lugar"></textarea>
+          </div>
+          <div class="item item-input">
+            <textarea ng-model="novoLugar.descryption" placeholder="Digite uma descrição para o lugar."></textarea>
+          </div>
+          <button class="button button-positive button-block" 
+            ng-click="insertItem()">Salvar</button>
+        </div>
+        <ion-list show-reorder="reordering" ng-hide="inserindo">
+          <div class="item item-divider">
+            A Visitar
+          </div>
+          <ion-item class="item-remove-animate item-icon-right"
+            ng-repeat="item in lugaresAVisitar" ng-click="exibirOcultar(item)">
+            <h2>{{item.name}}</h2>
+            <p>{{item.subtitle}}</p>
+            <i class="icon ion-arrow-right-c" ng-hide="item.exibir"></i>
+            <i class="icon ion-arrow-down-c" ng-show="item.exibir"></i>
+            <ion-option-button class="button-balanced ion-android-done"
+              ng-click="visitado(item)">
+              Visitado
+            </ion-option-button>
+            <h5 ng-show="item.exibir">{{item.descryption}}</h5>
+          </ion-item>
+          <div class="item item-divider">
+            Visitados
+          </div>
+          <ion-item class="item-remove-animate item-icon-right"
+            ng-repeat="item in lugaresVisitados" ng-click="exibirOcultar(item)">
+            <h2>{{item.name}}</h2>
+            <p>{{item.subtitle}}</p>
+            <i class="icon ion-arrow-right-c" ng-hide="item.exibir"></i>
+            <i class="icon ion-arrow-down-c" ng-show="item.exibir"></i>
+            <ion-option-button class="button-balanced ion-android-done"
+              ng-click="visitado(item)">
+              Visitado
+            </ion-option-button>
+            <h5 ng-show="item.exibir">{{item.descryption}}</h5>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>

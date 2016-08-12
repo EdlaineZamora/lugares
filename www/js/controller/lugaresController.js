@@ -32,7 +32,7 @@ app.controller('lugaresController', function($scope, $ionicPopup, $ionicPlatform
 
   $scope.insert = function(){
     $scope.inserindo = true;
-    $novoLugar.novoLugar = {};
+    $scope.novoLugar = {};
   };
 
   $scope.visitado = function(lugar) {

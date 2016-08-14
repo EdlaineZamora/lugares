@@ -3,24 +3,37 @@ angular.module('starter.factories', [])
 
 	return {
     	insert : function (name, subtitle, descryption) {
-        debugger;
         var query = "INSERT INTO lugares (name, subtitle, descryption, visited) VALUES (?, ?, ?, ?);";
         var values = [name, subtitle, descryption, 0];
+        $cordovaSQLite.execute(db, query, values);
+      },
+
+      update : function (item) {
+        var query = "update lugares set name = ?, subtitle = ?, descryption = ? where id = ?;";
+        var values = [item.name, item.subtitle, item.descryption, item.id];
+        $cordovaSQLite.execute(db, query, values);
+      },
+
+      delete : function (item) {
+        var query = "delete from lugares where id = ?;";
+        var values = [item.id];
         $cordovaSQLite.execute(db, query, values);
       },
     	
       select : function (id) {
         var query = "SELECT * FROM lugares WHERE id=?";
         var values = [id];
-
+        
+        var q = $q.defer();
         $cordovaSQLite.execute(db, query, values).then(
           function(res) {
               if (res.rows.length > 0) {
                 var first = res.rows.item(0);
-                return first;
+                q.resolve(first);                
               }
           }
         );
+        return q.promise;
       },
 
     	selectAll : function (visited) {
@@ -44,7 +57,7 @@ angular.module('starter.factories', [])
         return q.promise;    
       },
 
-      visitado : function(lugar) {
+      visited : function(lugar) {
         debugger;
         var query = "update lugares set visited = 1 where id=?";
         var parameters = [lugar.id];

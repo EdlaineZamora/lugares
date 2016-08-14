@@ -8,7 +8,7 @@ app.controller('lugaresController', function($scope, $ionicPopup, $ionicPlatform
   $scope.lugaresAVisitar = [];
   $scope.lugaresVisitados = [];
 
-  $scope.exibirOcultar = function(item) {
+  $scope.hideShow = function(item) {
       item.exibir = !item.exibir;
   }
 
@@ -35,8 +35,20 @@ app.controller('lugaresController', function($scope, $ionicPopup, $ionicPlatform
     $scope.novoLugar = {};
   };
 
-  $scope.visitado = function(lugar) {
-    LugaresFactory.visitado(lugar);
+  $scope.visited = function(lugar) {
+    LugaresFactory.visited(lugar);
+    $scope.findAll();
+  }
+
+  $scope.edit = function(lugar) {
+    LugaresFactory.select(lugar.id).then(function (res) {
+      $scope.novoLugar = res;
+    })
+    $scope.inserindo = true;
+  }
+
+  $scope.delete = function(lugar) {
+    LugaresFactory.delete(lugar);
     $scope.findAll();
   }
 
@@ -47,7 +59,11 @@ app.controller('lugaresController', function($scope, $ionicPopup, $ionicPlatform
         template: 'O campo Nome é obrigatório!'
       });
     } else {
-      LugaresFactory.insert($scope.novoLugar.name, $scope.novoLugar.subtitle, $scope.novoLugar.descryption);
+      if ($scope.novoLugar.id) {
+        LugaresFactory.update($scope.novoLugar);     
+      } else {
+        LugaresFactory.insert($scope.novoLugar.name, $scope.novoLugar.subtitle, $scope.novoLugar.descryption);
+      }
       $scope.inserindo = false;  
       $scope.findAll();
     }

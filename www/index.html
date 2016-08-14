@@ -18,36 +18,47 @@
       <div class="bar bar-header bar-dark">
         <button class="button button-icon icon ion-android-plane" ng-hide="inserindo"></button>
         <button class="button button-icon icon-left ion-arrow-left-c" ng-click="cancel()" ng-show="inserindo"></button>
-        <h1 class="title">Lugares para conhecer</h1>
+        <h1 class="title">Lugares para Visitar</h1>
         <button class="button button-icon icon ion-plus" ng-click="insert()" ng-hide="inserindo"></button>
       </div>
       <ion-content class="has-header">
+        
         <div ng-show="inserindo">
-          <div class="item item-input">
-            <textarea ng-model="novoLugar.name" placeholder="Digite o nome do lugar"></textarea>
-          </div>
-          <div class="item item-input">
-            <textarea ng-model="novoLugar.subtitle" placeholder="Digite o subtítulo do lugar"></textarea>
-          </div>
-          <div class="item item-input">
-            <textarea ng-model="novoLugar.descryption" placeholder="Digite uma descrição para o lugar."></textarea>
+          <div class="list">
+            <label class="item item-input">
+              <input ng-model="novoLugar.name" type="text" placeholder="Digite o nome"></input>
+            </label>
+            <label class="item item-input">
+              <input ng-model="novoLugar.subtitle" type="text" placeholder="Digite o subtítulo do lugar"></input>
+            </label>
+            <label class="item item-input">
+              <textarea ng-model="novoLugar.descryption" placeholder="Digite uma descrição para o lugar."></textarea>
+            </label>
           </div>
           <button class="button button-positive button-block" 
             ng-click="insertItem()">Salvar</button>
         </div>
+
+
         <ion-list show-reorder="reordering" ng-hide="inserindo">
           <div class="item item-divider">
             A Visitar
           </div>
           <ion-item class="item-remove-animate item-icon-right"
-            ng-repeat="item in lugaresAVisitar" ng-click="exibirOcultar(item)">
+            ng-repeat="item in lugaresAVisitar" ng-click="hideShow(item)">
             <h2>{{item.name}}</h2>
             <p>{{item.subtitle}}</p>
             <i class="icon ion-arrow-right-c" ng-hide="item.exibir"></i>
             <i class="icon ion-arrow-down-c" ng-show="item.exibir"></i>
             <ion-option-button class="button-balanced ion-android-done"
-              ng-click="visitado(item)">
+              ng-click="visited(item)">
               Visitado
+            </ion-option-button>
+            <ion-option-button class="button-calm ion-edit" ng-click="edit(item)">
+              Editar
+            </ion-option-button>
+            <ion-option-button class="button-assertive ion-edit" ng-click="delete(item)">
+              Excluir
             </ion-option-button>
             <h5 ng-show="item.exibir">{{item.descryption}}</h5>
           </ion-item>
@@ -55,11 +66,17 @@
             Visitados
           </div>
           <ion-item class="item-remove-animate item-icon-right"
-            ng-repeat="item in lugaresVisitados" ng-click="exibirOcultar(item)">
+            ng-repeat="item in lugaresVisitados" ng-click="hideShow(item)">
             <h2>{{item.name}}</h2>
             <p>{{item.subtitle}}</p>
             <i class="icon ion-arrow-right-c" ng-hide="item.exibir"></i>
             <i class="icon ion-arrow-down-c" ng-show="item.exibir"></i>
+            <ion-option-button class="button-calm ion-edit" ng-click="edit(item)">
+              Editar
+            </ion-option-button>
+            <ion-option-button class="button-assertive ion-edit" ng-click="delete(item)">
+              Excluir
+            </ion-option-button>
             <h5 ng-show="item.exibir">{{item.descryption}}</h5>
           </ion-item>
         </ion-list>
